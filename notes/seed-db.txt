@@ -1,0 +1,11 @@
+
+node import.js --import
+
+[
+  'C:\\nvm4w\\nodejs\\node.exe',
+  'D:\\1FilesD\\_1prgms\\_1all-projects\\2node.js\\1backend-auth-api\\1new-auth\\dev\\dev-data\\import.js',
+  '--import'
+]
+Database Connected Successfully
+Database Host: 127.0.0.1
+Data seeded successfully

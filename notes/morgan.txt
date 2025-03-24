@@ -1,0 +1,5 @@
+Why Use morgan?
+
+✅ Easy debugging – See all incoming requests
+✅ Helps with analytics – Track API usage
+✅ Works with log files – Useful for production monitoring

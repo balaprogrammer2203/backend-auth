@@ -1,0 +1,2 @@
+chalk--4-version--support--require-commonjs.
+chalk-5--support only --import-esm

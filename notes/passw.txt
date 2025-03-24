@@ -1,0 +1,7 @@
+admin
+admin@test.com
+adminpass123
+
+for all users
+userpass123
+
