@@ -1,6 +1,5 @@
 const User = require("../models/userModel");
 const CryptoJS = require("crypto-js");
-// const jwt = require("jsonwebtoken");
 const redis = require("../db/redis");
 
 // helpers
@@ -15,9 +14,9 @@ exports.registerUser = async (req, res, next) => {
   // console.log("req.body", req.body);
   const { username, email, password } = req.body;
 
-  console.log("username", username);
-  console.log("email", email);
-  console.log("password", password);
+  // console.log("username", username);
+  // console.log("email", email);
+  // console.log("password", password);
     try {
 
     const checkEmail = await User.findOne({ email });
@@ -48,11 +47,9 @@ exports.registerUser = async (req, res, next) => {
     });
 
     // console.log("newUser", newUser);
-
       const savedUser = await newUser.save();
       response(res, 201, true, 'User successfully registered', savedUser);
     } catch (err) {
-      // response(res, 500, false, 'Internal Sever Error', err.message);
       next(err);
     }
   };
@@ -66,10 +63,9 @@ exports.loginUser = async (req, res, next) => {
           message: 'Username does not exists',
           field: 'username'
         }];
-        return next(customError(409, "Conflict Error", { errors }));
+        return next(customError(401, "Validation Error", { errors }));
       }
-      // !user && res.status(res, 401, false, "Username doesnt Exist");
-      //return next(customError(401, "Validation Error", { errors: errors.array() }));
+      // !user && res.status(res, 401, false, "Username doesnt Exist");      
 
       const hashedPassword = CryptoJS.AES.decrypt(
         user.password,
@@ -85,18 +81,6 @@ exports.loginUser = async (req, res, next) => {
         return next(customError(401, "Unauthorized Error", { errors }));
       }
 
-      // originalPassword !== req.body.password &&
-      //   response(res, 401, false, 'Wrong Password');
-
-      // const accessToken = jwt.sign(
-      //   {
-      //     id: user._id,
-      //     isAdmin: user.isAdmin,
-      //   },
-      //   config.jwt.secret,
-      //   { expiresIn: "60m" }
-      // );
-
       const accessToken = await authHelper.signAccessToken({
         id: user._id,
         isAdmin: user.isAdmin,
@@ -104,17 +88,15 @@ exports.loginUser = async (req, res, next) => {
       });
 
       const refreshToken = await authHelper.signRefreshToken(user._id);
-
-      // const { password, ...others } = user._doc;
+      
       const userData = user._doc;
       delete userData.password;
       delete userData.updatedAt;
       delete userData.__v;
-
-      // response(res, 200, true, "Login successful", {accessToken, ...others});
+      
       response(res, 200, true, "Login successful", {accessToken, refreshToken, user: userData});
     } catch (err) {
-      //response(res, 500, false, 'Internal Sever Error', err.message);
+      
       next(err);
     }
 }
@@ -129,7 +111,6 @@ exports.refreshToken = async (req, res, next) => {
         message: 'Refresh token not exists'
       }];
       return next(customError(401, "Validation Error", { errors }));
-			// throw Boom.badRequest();
 		}
 
 		const user_id = await authHelper.verifyRefreshToken(refresh_token);	
@@ -150,7 +131,6 @@ exports.refreshToken = async (req, res, next) => {
         isAdmin: user.isAdmin,
       });
 
-		// res.json({ accessToken, refreshToken });
     response(res, 200, true, "Refresh token successful", { accessToken, refreshToken });
 	} catch (err) {
 		next(err);
@@ -165,8 +145,7 @@ exports.logout = async (req, res, next) => {
       let errors = [{
         message: 'Refresh token not exists'
       }];
-      return next(customError(400, "Bad request", { errors }));
-			// throw Boom.badRequest();
+      return next(customError(401, "Validation Error", { errors }));
 		}
 
 		const user_id = await authHelper.verifyRefreshToken(refresh_token);
@@ -176,11 +155,9 @@ exports.logout = async (req, res, next) => {
       let errors = [{
         message: 'Redis user token not exists'
       }];
-      return next(customError(400, "Bad request", { errors }));
-			// throw Boom.badRequest();
+      return next(customError(401, "Validation Error", { errors }));
 		}
-
-		// res.json({ message: "success" });
+		
     response(res, 200, true, "Logged out successfully!");
 	} catch (err) {		
 		return next(err);
