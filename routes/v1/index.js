@@ -6,8 +6,8 @@ const authRoute = require('./auth');
 const userRoute = require('./users');
 
 const defaultRoutes = [
-  { path: '/auth', route: authRoute },
-  { path: '/users', route: userRoute },
+    { path: '/auth', route: authRoute },
+    { path: '/users', route: userRoute },
 ];
 
 defaultRoutes.forEach((route) => {
@@ -21,7 +21,7 @@ const devRoutes = [
     //   path: '/docs',
     //   route: docsRoute,
     // },
-  ];
+];
 
 /* istanbul ignore next */
 if (config.env === 'development') {

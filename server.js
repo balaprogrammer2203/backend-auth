@@ -10,9 +10,9 @@ const server = app.listen(PORT, function () {
     `Server is up and running on  http://localhost:${server.address().port}`
   );
   
-  console.log(
-    `Server is up and running on  http://localhost:${server.address().port}`
-  );
+  // console.log(
+  //   `Server is up and running on  http://localhost:${server.address().port}`
+  // );
 });
 
 const exitHandler = () => {

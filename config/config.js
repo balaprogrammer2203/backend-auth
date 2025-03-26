@@ -14,6 +14,7 @@ module.exports = {
     },
     jwt: {
         secret: process.env.JWT_SECRET,
+        refresh_secret: process.env.JWT_REFRESH_SECRET,
     },
     password: {
         secret: process.env.PASSWORD_SECRET,

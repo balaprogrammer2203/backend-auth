@@ -9,7 +9,7 @@ exports.getAllUser = async (req, res, next) => {
     //console.log("req", req.query.new);
     const query = req.query.new
     try {
-        const users= query ? await User.find().sort({ _id: -1}).limit(5) : await User.find().select("-password -updatedAt");
+        const users= query ? await User.find().sort({ _id: -1}).limit(5) : await User.find().select("-password -updatedAt -__v");
         response(res, 200, true, "Successfully fetched all users", users);
     } catch (err) {
         //response(res, 500, false, "Internal server error", err.message);
