@@ -128,13 +128,27 @@ exports.refreshToken = async (req, res, next) => {
       let errors = [{
         message: 'Refresh token not exists'
       }];
-      return next(customError(400, "Bad request", { errors }));
+      return next(customError(401, "Validation Error", { errors }));
 			// throw Boom.badRequest();
 		}
 
-		const user_id = await authHelper.verifyRefreshToken(refresh_token);
-		const accessToken = await authHelper.signAccessToken(user_id);
+		const user_id = await authHelper.verifyRefreshToken(refresh_token);	
 		const refreshToken = await authHelper.signRefreshToken(user_id);
+
+    const user = await User.findOne({ _id: user_id });
+    // console.log('user id record', user);
+      if(!user){
+        let errors = [{
+          message: 'User ID does not exists',
+          field: '_id'
+        }];
+        return next(customError(401, "Validation Error", { errors }));
+      }
+
+      const accessToken = await authHelper.signAccessToken({ 
+        id: user_id,
+        isAdmin: user.isAdmin,
+      });
 
 		// res.json({ accessToken, refreshToken });
     response(res, 200, true, "Refresh token successful", { accessToken, refreshToken });
@@ -168,8 +182,7 @@ exports.logout = async (req, res, next) => {
 
 		// res.json({ message: "success" });
     response(res, 200, true, "Logged out successfully!");
-	} catch (err) {
-		console.log(err);
+	} catch (err) {		
 		return next(err);
 	}
 };
