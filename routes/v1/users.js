@@ -2,7 +2,7 @@ const { verifyToken, verifyTokenAndAuthorization, verifyTokenAndAdmin } = requir
 const { verifyAccessToken } = require('../../helpers/authHelper');
 const router = require("express").Router();
 const userController = require('../../controllers/userController');
-const { updateUserValidation } = require('./validations/updateUserValidation');
+const { updateUserValidation } = require('./validations/users/updateUserValidation');
 
 //GET ALL USERS
 // router.route('/').get(verifyToken, userController.getAllUser);

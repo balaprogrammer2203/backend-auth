@@ -73,6 +73,7 @@ const signRefreshToken = (user_id) => {
 				reject(err); // err handle -- to check
 			}
 
+            //redis
 			redis.set(user_id, refreshToken, "EX", 180 * 24 * 60 * 60);
 
 			resolve(refreshToken);

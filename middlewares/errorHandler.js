@@ -54,7 +54,7 @@ const errorHandlerMiddleware = (err, req, res, next) => {
   //   data: err.errors || null
   // };
 
-  console.log(customErrorResponse);
+  console.log("customErrorResponse: ", customErrorResponse);
   return res.status(customErrorResponse.statusCode).json(customErrorResponse);
 };
 

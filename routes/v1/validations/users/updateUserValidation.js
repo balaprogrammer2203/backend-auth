@@ -1,5 +1,5 @@
 const { check } = require('express-validator');
-const {inputValidationMiddleware} = require("../../../middlewares/customValidations");
+const {inputValidationMiddleware} = require("../../../../middlewares/customValidations");
 
 const updateUserValidation = [
 
@@ -22,7 +22,7 @@ const updateUserValidation = [
         .withMessage('A valid email address is required'),
 
     inputValidationMiddleware
-  ];
+];
 
 module.exports = {
     updateUserValidation

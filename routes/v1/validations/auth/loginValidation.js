@@ -1,5 +1,5 @@
 const { check } = require('express-validator');
-const {inputValidationMiddleware} = require("../../../middlewares/customValidations");
+const {inputValidationMiddleware} = require("../../../../middlewares/customValidations");
 
 const loginValidation = [
 
